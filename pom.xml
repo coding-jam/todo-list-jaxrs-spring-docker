@@ -36,7 +36,7 @@
 
         <filter.file>../mvn-svil.properties</filter.file>
 
-        <spring.framework.version>4.0.5.RELEASE</spring.framework.version>
+        <spring.framework.version>4.2.5.RELEASE</spring.framework.version>
         <guava.version>17.0</guava.version>
         <h2.version>1.4.179</h2.version>
 
