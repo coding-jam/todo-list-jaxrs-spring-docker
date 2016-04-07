@@ -1,0 +1,22 @@
+<EventReconciliationDocument xmlns="urn:global:pss:reconciliation" creationDate="2013-01-21T05:20:03Z">
+	<EventQuery>
+		<EventDate>20121231</EventDate>
+		<bizLocation>
+			<id>urn:epc:id:sgln:376021852.001.7</id>
+		</bizLocation>
+		<Serialization>
+			<GTIN>04052681000011</GTIN>
+			<BATCH_ID>40279</BATCH_ID>
+			<EXPIRATION_DATE>20140430</EXPIRATION_DATE>
+			<PRODUCTION_DATE>20121229</PRODUCTION_DATE>
+			<Count>84000</Count>
+		</Serialization>
+		<Serialization>
+			<GTIN>04052681000011</GTIN>
+			<BATCH_ID>32456</BATCH_ID>
+			<EXPIRATION_DATE>20150230</EXPIRATION_DATE>
+			<PRODUCTION_DATE>20121229</PRODUCTION_DATE>
+			<Count>5000</Count>
+		</Serialization>
+	</EventQuery>
+</EventReconciliationDocument>

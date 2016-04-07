@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	default-autowire="byName"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+	<!-- epcis_serializer database connection -->
+	<bean id="epcisSerEntityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="epcisSerDataSource" />
+		<property name="persistenceUnitName" value="epcis-serializer" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="${db.show.sql}" />
+				<property name="generateDdl" value="${db.generate.ddl}" />
+				<property name="databasePlatform" value="${db.dialect}" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="epcisSerDataSource" class="org.apache.tomcat.dbcp.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${db.driver}" />
+		<property name="url" value="${db.url}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+		<property name="initialSize" value="${db.initialSize}" />
+		<property name="maxActive" value="${db.maxActive}" />
+	</bean>
+
+	<bean id="epcisSerTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="dataSource" ref="epcisSerDataSource" />
+		<property name="entityManagerFactory" ref="epcisSerEntityManagerFactory" />
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="epcisSerTransactionManager" />
+
+	<!-- epcis database connection -->
+	<bean id="epcisDataSource" class="org.apache.tomcat.dbcp.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${db.driver}" />
+		<property name="url" value="jdbc:mysql://${repo.ip}:3306/epcis" />
+		<property name="username" value="epcis" />
+		<property name="password" value="epcis" />
+		<property name="initialSize" value="${db.initialSize}" />
+		<property name="maxActive" value="${db.maxActive}" />
+	</bean>
+	
+	<bean id="epcisEntityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="epcisDataSource" />
+		<property name="persistenceUnitName" value="epcis-repo" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="${db.show.sql}" />
+				<property name="generateDdl" value="false" />
+				<property name="databasePlatform" value="${db.dialect}" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="epcisTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="dataSource" ref="epcisDataSource" />
+		<property name="entityManagerFactory" ref="epcisEntityManagerFactory" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="epcisTransactionManager" />
+	
+	
+<!-- 	<bean -->
+<!-- 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />	 -->
+	
+</beans>

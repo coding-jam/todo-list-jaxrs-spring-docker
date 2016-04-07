@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<!-- XML Schema Generated from XML Document on Thu Sep 11 2014 15:17:59 
+		GMT+0200 (CEST) -->
+	<!-- with XmlGrid.net Free Online Service http://xmlgrid.net -->
+	<xs:element name="EventReconciliationDocument">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="EventQuery">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="EventDate" type="xs:string"></xs:element>
+							<xs:element name="bizLocation">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="id" type="xs:string"></xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Serialization" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="GTIN" type="xs:int"></xs:element>
+										<xs:element name="BATCH_ID" type="xs:int"></xs:element>
+										<xs:element name="EXPIRATION_DATE" type="xs:int"></xs:element>
+										<xs:element name="PRODUCTION_DATE" type="xs:int"></xs:element>
+										<xs:element name="Count" type="xs:int"></xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="creationDate" type="xs:dateTime"></xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

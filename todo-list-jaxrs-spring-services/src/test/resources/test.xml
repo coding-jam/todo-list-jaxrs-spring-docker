@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<epcis:EPCISDocument creationDate="2001-12-31T12:00:00" schemaVersion="0.0" xmlns:epcglobal="urn:epcglobal:xsd:1" xmlns:epcis="urn:epcglobal:epcis:xsd:1" xmlns:p="http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:epcglobal:epcis:xsd:1 EPCglobal-epcis-1_0.xsd ">
+<EPCISBody>
+	<EventList>
+		<ObjectEvent>
+                <eventTime>2014-06-19T10:23:30.413+02:00</eventTime>
+                <eventTimeZoneOffset>+02:00</eventTimeZoneOffset>
+                <epcList>
+                    <epc>(01)123-456</epc>
+                    <epc>(01)123-789</epc>
+                </epcList>
+                <action>ADD</action>
+                <bizStep>urn:epcis:bizStep</bizStep>
+                <readPoint>
+                    <id>urn:epcis:read</id>
+                </readPoint>
+                <bizLocation>
+                    <id>urn:epcis:location</id>
+                </bizLocation>
+                <extension>
+                    <SAPEPCExtension>
+                        <EPC>(01)123-456</EPC>
+                        <NameValuePair>
+                            <ParameterName>BATCH_ID</ParameterName>
+                            <ParameterValue>4321</ParameterValue>
+                        </NameValuePair>
+                        <NameValuePair>
+                            <ParameterName>EXPIRATION_DATE</ParameterName>
+                            <ParameterValue>20140619</ParameterValue>
+                        </NameValuePair>
+                        <NameValuePair>
+                            <ParameterName>GTIN</ParameterName>
+                            <ParameterValue>090909</ParameterValue>
+                        </NameValuePair>
+                        <NameValuePair>
+                            <ParameterName>ZBI_PRODUCTION_DATE</ParameterName>
+                            <ParameterValue>20140619</ParameterValue>
+                        </NameValuePair>
+                    </SAPEPCExtension>
+                    <SAPEPCExtension>
+                        <EPC>(01)123-789</EPC>
+                        <NameValuePair>
+                            <ParameterName>BATCH_ID</ParameterName>
+                            <ParameterValue>7654</ParameterValue>
+                        </NameValuePair>
+                        <NameValuePair>
+                            <ParameterName>EXPIRATION_DATE</ParameterName>
+                            <ParameterValue>20140619</ParameterValue>
+                        </NameValuePair>
+                        <NameValuePair>
+                            <ParameterName>GTIN</ParameterName>
+                            <ParameterValue>090909</ParameterValue>
+                        </NameValuePair>
+                        <NameValuePair>
+                            <ParameterName>ZBI_PRODUCTION_DATE</ParameterName>
+                            <ParameterValue>20140619</ParameterValue>
+                        </NameValuePair>
+                    </SAPEPCExtension>
+                </extension>
+            </ObjectEvent>
+	</EventList>
+</EPCISBody>
+</epcis:EPCISDocument>

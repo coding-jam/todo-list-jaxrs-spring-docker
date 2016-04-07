@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.0">
+	<xs:element name="eventsData">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="eventData" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="gtin" type="xs:string"></xs:element>
+							<xs:element name="serial" type="xs:string"></xs:element>
+							<xs:element name="batchId" type="xs:string"></xs:element>
+							<xs:element name="expireDate" type="xs:date"></xs:element>
+							<xs:element name="productionDate" type="xs:date"></xs:element>
+							<xs:element name="eventDate" type="xs:dateTime"></xs:element>
+							<xs:element name="serialStatusCode" type="xs:int"></xs:element>
+							<xs:element name="serialStatusDesc" type="xs:string"></xs:element>
+							<xs:element name="readPoint" type="xs:string"></xs:element>
+							<xs:element name="bizLocation" type="xs:string"></xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
