@@ -30,6 +30,6 @@ public class TaskResourceTest {
     public void shouldNotFindResource() {
         when(taskService.getById(anyInt())).thenReturn(Optional.empty());
 
-        taskResource.getTask("1");
+        taskResource.getTask(1);
     }
 }

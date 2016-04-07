@@ -4,11 +4,11 @@ import it.codingjam.todolist.api.exceptions.ErrorMessage;
 import it.codingjam.todolist.api.rules.WebClientRule;
 import it.codingjam.todolist.api.utils.APIVersion;
 import it.codingjam.todolist.models.Task;
-import org.glassfish.jersey.moxy.json.MoxyJsonFeature;
+import it.codingjam.todolist.models.TaskStatus;
 import org.junit.ClassRule;
 import org.junit.Test;
 
-import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
@@ -32,15 +32,11 @@ public class TaskResourceIT {
         });
         assertNotNull(tasks);
         assertFalse(tasks.isEmpty());
-        assertEquals(3, tasks.size());
-        assertEquals(1, tasks.get(0).getId());
-        assertEquals(2, tasks.get(1).getId());
-        assertEquals(3, tasks.get(2).getId());
     }
 
     @Test
-    public void shouldReturnBadRequest() {
-        Response response = clientRule.getResource().path("todos/1a").request().get(Response.class);
+    public void shouldReturnBadRequestOnGetTask() {
+        Response response = clientRule.getResource().path("todos/-1").request().get(Response.class);
         ErrorMessage errorMessage = response.readEntity(ErrorMessage.class);
 
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
@@ -50,4 +46,76 @@ public class TaskResourceIT {
         assertFalse(errorMessage.getDetails().isEmpty());
     }
 
+    @Test
+    public void shouldReturnNotFound() {
+        Response response = clientRule.getResource().path("todos/900000").request().get(Response.class);
+        ErrorMessage errorMessage = response.readEntity(ErrorMessage.class);
+
+        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
+        assertNotNull(errorMessage);
+        assertNotNull(errorMessage.getMessage());
+    }
+
+    @Test
+    public void shouldAddNewTask() {
+        List<Task> tasksBeforeTest = getTasks();
+
+        Task task = new Task();
+        task.setText("Nuovo task da fare");
+        Response response = clientRule.getResource().path("/todos").request().post(Entity.json(task), Response.class);
+        Task newTask = response.readEntity(Task.class);
+
+        assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
+        assertTrue(response.getHeaderString("location").endsWith("/todos/" + newTask.getId()));
+        assertTrue(newTask.getId() > 0);
+        assertEquals(task.getText(), newTask.getText());
+        assertFalse(tasksBeforeTest.contains(newTask));
+    }
+
+    @Test
+    public void shouldReturnBadRequestOnAddNewTask() {
+        Response response = clientRule.getResource().path("/todos").request().post(Entity.json("{}"), Response.class);
+        ErrorMessage errorMessage = response.readEntity(ErrorMessage.class);
+
+        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+        assertNotNull(errorMessage);
+        assertNotNull(errorMessage.getMessage());
+    }
+
+    @Test
+    public void shouldDeleteTask() {
+        List<Task> tasksBeforeTest = getTasks();
+
+        Response response = clientRule.getResource().path("/todos/" + tasksBeforeTest.get(0).getId()).request().delete(Response.class);
+
+        assertEquals(Response.Status.NO_CONTENT.getStatusCode(), response.getStatus());
+
+        List<Task> tasksAfterTest = getTasks();
+        assertEquals(tasksBeforeTest.size() - 1, tasksAfterTest.size());
+    }
+
+    @Test
+    public void shouldUpdateTask() {
+        List<Task> tasksBeforeTest = getTasks();
+
+        Task aTask = tasksBeforeTest.get(0);
+        assertEquals(TaskStatus.UNDONE, aTask.getStatus());
+        aTask.setStatus(TaskStatus.DONE);
+
+        Response response = clientRule.getResource().path("/todos/" + aTask.getId()).request().put(Entity.json(aTask));
+
+        assertEquals(Response.Status.NO_CONTENT.getStatusCode(), response.getStatus());
+
+        Task updatedTask = getTask(aTask.getId());
+        assertEquals(TaskStatus.DONE, updatedTask.getStatus());
+    }
+
+    private List<Task> getTasks() {
+        return clientRule.getResource().path("/todos").request().get(new GenericType<List<Task>>() {
+        });
+    }
+
+    private Task getTask(long id) {
+        return clientRule.getResource().path("todos/" + id).request().get(Task.class);
+    }
 }
