@@ -1,22 +1,23 @@
 package it.codingjam.todolist.services;
 
-import com.google.common.collect.Lists;
 import it.codingjam.todolist.models.Task;
+import it.codingjam.todolist.utils.Profiling;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
-import static com.sun.javafx.tools.resource.DeployResource.Type.data;
 
 /**
  */
 @Named
+@Profiling
 public class TaskService {
 
     private static final Logger LOGGER = Logger.getLogger(TaskService.class.getName());
