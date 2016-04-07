@@ -46,9 +46,9 @@
         <io.version>1.4</io.version>
         <aspectj.version>1.6.8</aspectj.version>
         <log4j.version>1.2.14</log4j.version>
-        <hibernate.version>5.1.0.Final</hibernate.version>
+        <hibernate.version>4.3.11.Final</hibernate.version>
         <jersey.version>2.22.2</jersey.version>
-        <mysql.version>5.1.34</mysql.version>
+        <postgresql.version>9.4.1208.jre7</postgresql.version>
         <servlet.api.version>3.1.0</servlet.api.version>
         <jgitflow.version>1.0-m5.1</jgitflow.version>
     </properties>
@@ -174,9 +174,9 @@
             <artifactId>jersey-bean-validation</artifactId>
         </dependency>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.version}</version>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>

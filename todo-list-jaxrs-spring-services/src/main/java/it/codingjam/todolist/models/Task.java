@@ -1,17 +1,28 @@
 package it.codingjam.todolist.models;
 
-import javax.validation.constraints.Min;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
+ *
+ * Task entity
+ *
  */
+@Entity
+@Table(name = "tasks")
+@NamedQuery(name = Task.GET_ALL, query = "select t from Task t")
 public class Task {
 
+    public static final String GET_ALL = "Task.getAll";
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @NotNull
     private String text;
 
+    @Enumerated(EnumType.STRING)
     @NotNull
     private TaskStatus status = TaskStatus.UNDONE;
 

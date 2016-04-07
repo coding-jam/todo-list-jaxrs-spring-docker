@@ -2,12 +2,17 @@ package it.codingjam.todolist.services;
 
 import com.google.common.collect.Lists;
 import it.codingjam.todolist.models.Task;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import static com.sun.javafx.tools.resource.DeployResource.Type.data;
 
 /**
  */
@@ -16,7 +21,8 @@ public class TaskService {
 
     private static final Logger LOGGER = Logger.getLogger(TaskService.class.getName());
 
-    private List<Task> data = Lists.newArrayList(newTask(1), newTask(2), newTask(3));
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @PostConstruct
     void init() {
@@ -24,35 +30,30 @@ public class TaskService {
     }
 
     public Optional<Task> getById(long id) {
-        return data.stream().filter(task -> task.getId() == id).findFirst();
+        Task task = this.entityManager.find(Task.class, id);
+        return Optional.ofNullable(task);
     }
 
     public List<Task> getAllTasks() {
-        return data;
+        return this.entityManager.createNamedQuery(Task.GET_ALL, Task.class).getResultList();
     }
 
+    @Transactional
     public void save(Task task) {
         LOGGER.info(String.format("Saving new task %s", task));
-        Optional<Long> max = data.stream().map(Task::getId).max((value1, value2) -> Long.valueOf(value1).compareTo(value2));
-        task.setId(max.get() + 1);
-        data.add(task);
+        this.entityManager.persist(task);
     }
 
+    @Transactional
     public void deleteById(long id) {
         LOGGER.info(String.format("Removing task %s", id));
-        List<Task> taskList = data.stream().filter(task -> task.getId() != id).collect(Collectors.toList());
-        synchronized (data) {
-            data = taskList;
-        }
+        this.entityManager.createNamedQuery("Task.remove").setParameter("id", id).executeUpdate();
     }
 
+    @Transactional
     public void update(Task task) {
         LOGGER.info(String.format("Updating task %s", task.getId()));
-        Task taskFromList = data.stream().filter(taskInList -> taskInList.getId() == task.getId()).findFirst().orElseThrow(() -> new NoSuchElementException());
-        synchronized (data) {
-            taskFromList.setText(task.getText());
-            taskFromList.setStatus(task.getStatus());
-        }
+        this.entityManager.merge(task);
     }
 
     private Task newTask(int id) {

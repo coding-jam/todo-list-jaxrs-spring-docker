@@ -9,7 +9,10 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
 
-    <!--<import resource="classpath:launch-context.xml" />-->
-    <context:component-scan base-package="it.codingjam.todolist.services"/>
+    <context:property-placeholder location="classpath:db.properties" />
+
+    <!--<import resource="classpath:META-INF/spring/db-context.xml" />-->
+
+    <context:component-scan base-package="it.codingjam.todolist.services,it.codingjam.todolist.configs"/>
 
 </beans>

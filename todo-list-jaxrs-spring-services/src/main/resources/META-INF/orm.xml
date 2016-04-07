@@ -1,90 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<entity-mappings version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+<entity-mappings version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
 
-	<named-native-query name="EventDataDTO.getByBatchIdAndProductionDate" result-class="com.ida.pharma.epcis.serialization.epcisrepo.model.entities.EventData">
-		<query>
-		<![CDATA[
-			select 	ext1.strValue batchId,
-					SUBSTRING(ext4.strValue, 5) gtin,
-					STR_TO_DATE(ext3.strValue, '%Y-%m-%d') productionDate,
-					STR_TO_DATE(ext5.strValue, '%Y-%m-%d') expireDate,
-					ev.eventTime eventDate,
-					epc.epc serial,
-					loc.uri bizLocation,
-					ev.action actionType,
-					ext2.strValue serialStatusCode,
-					null serialStatusDesc,
-					null readPoint
-			from event_ObjectEvent_extensions ext1
-			join event_ObjectEvent_extensions ext2 on ext2.event_id = ext1.event_id
-			join event_ObjectEvent_extensions ext3 on ext3.event_id = ext1.event_id
-			join event_ObjectEvent_extensions ext4 on ext4.event_id = ext1.event_id
-			join event_ObjectEvent_extensions ext5 on ext5.event_id = ext1.event_id
-			join event_ObjectEvent ev on ev.id = ext1.event_id
-			join event_ObjectEvent_EPCs epc on epc.event_id = ev.id
-			join voc_BizLoc loc on loc.id = ev.bizLocation
-			where ev.action = ?1
-				and ext1.fieldname = 'http://www.pharma-ida.com/ida/epcis#batchId'
-				and ext1.strValue = ?2
-				and ext2.fieldname = 'http://www.pharma-ida.com/ida/epcis#serialStatusCode'
-				and ext2.strValue in ?3
-				and ext3.fieldname = 'http://www.pharma-ida.com/ida/epcis#productionDate'
-				and ext3.strValue = ?4
-				and ext4.fieldname = 'http://www.pharma-ida.com/ida/epcis#gtin'
-				and ext5.fieldname = 'http://www.pharma-ida.com/ida/epcis#expirationDate'
-				and ext1.event_id in (
-						select id from (
-							select 	max(ev.id) id,
-									max(ev.eventTime) eventDate,
-									epc.epc serial
-							from event_ObjectEvent ev
-							join event_ObjectEvent_EPCs epc on epc.event_id = ev.id
-							where ev.id in (
-								select ext1.event_id
-								from event_ObjectEvent_extensions ext1
-								where ext1.fieldname = 'http://www.pharma-ida.com/ida/epcis#batchId'
-								and ext1.strValue = ?2
-							)
-							group by epc.epc
-						) maxIds
-					)
-					order by serial
-			
-		]]>
-		</query>
-	</named-native-query>
-	
-	<named-native-query name="EventDataDTO.baseQueryByExample" result-class="com.ida.pharma.epcis.serialization.epcisrepo.model.entities.EventData">
-		<query>
-		<![CDATA[
-			select 	ext1.strValue batchId,
-					SUBSTRING(ext4.strValue, 5) gtin,
-					STR_TO_DATE(ext3.strValue, '%Y-%m-%d') productionDate,
-					STR_TO_DATE(ext5.strValue, '%Y-%m-%d') expireDate,
-					ev.eventTime eventDate,
-					epc.epc serial,
-					loc.uri bizLocation,
-					ev.action actionType,
-					ext2.strValue serialStatusCode,
-					null serialStatusDesc,
-					rp.uri readPoint			
-			from event_ObjectEvent_extensions ext1
-			join event_ObjectEvent_extensions ext2 on ext2.event_id = ext1.event_id
-			join event_ObjectEvent_extensions ext3 on ext3.event_id = ext1.event_id
-			join event_ObjectEvent_extensions ext4 on ext4.event_id = ext1.event_id
-			join event_ObjectEvent_extensions ext5 on ext5.event_id = ext1.event_id
-			join event_ObjectEvent ev on ev.id = ext1.event_id
-			join event_ObjectEvent_EPCs epc on epc.event_id = ev.id
-			left outer join voc_BizLoc loc on loc.id = ev.bizLocation
-			left outer join voc_ReadPoint rp on rp.id = ev.readPoint
-			where 1=1
-				and ext1.fieldname = 'http://www.pharma-ida.com/ida/epcis#batchId'
-				and ext2.fieldname = 'http://www.pharma-ida.com/ida/epcis#serialStatusCode'
-				and ext3.fieldname = 'http://www.pharma-ida.com/ida/epcis#productionDate'
-				and ext4.fieldname = 'http://www.pharma-ida.com/ida/epcis#gtin'
-				and ext5.fieldname = 'http://www.pharma-ida.com/ida/epcis#expirationDate'
-				
-		]]>			
-		</query>
-	</named-native-query>
+    <named-query name="Task.remove">
+        <query>delete from Task t where t.id = :id</query>
+    </named-query>
+
 </entity-mappings>

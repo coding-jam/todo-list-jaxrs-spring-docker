@@ -6,11 +6,9 @@
 	version="2.1">
 
 	<persistence-unit name="todo-list" transaction-type="RESOURCE_LOCAL">
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<mapping-file>META-INF/orm.xml</mapping-file>
 		<properties>
- 			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
- 			<property name="hibernate.show_sql" value="true" />
-			<!--<property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider" />-->
 		</properties>
 	</persistence-unit>
 	
