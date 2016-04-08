@@ -1,12 +1,10 @@
 package it.codingjam.todolist.services;
 
 import it.codingjam.todolist.models.Task;
-import it.codingjam.todolist.utils.Profiling;
-import org.springframework.beans.factory.annotation.Autowired;
+import it.codingjam.todolist.interceptors.Profiling;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

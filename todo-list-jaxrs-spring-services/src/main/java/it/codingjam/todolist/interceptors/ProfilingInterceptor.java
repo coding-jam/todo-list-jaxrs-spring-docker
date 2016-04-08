@@ -1,4 +1,4 @@
-package it.codingjam.todolist.utils;
+package it.codingjam.todolist.interceptors;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -16,7 +16,7 @@ import javax.inject.Named;
 @Named
 public class ProfilingInterceptor {
 
-    @Around("@within(it.codingjam.todolist.utils.Profiling) || @annotation(it.codingjam.todolist.utils.Profiling)")
+    @Around("@within(it.codingjam.todolist.interceptors.Profiling) || @annotation(it.codingjam.todolist.interceptors.Profiling)")
     public Object profile(ProceedingJoinPoint call) throws Throwable {
         StopWatch clock = new StopWatch("Profiling for " + call.getTarget().toString());
         try {

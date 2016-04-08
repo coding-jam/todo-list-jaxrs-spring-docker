@@ -1,4 +1,4 @@
-package it.codingjam.todolist.utils;
+package it.codingjam.todolist.interceptors;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

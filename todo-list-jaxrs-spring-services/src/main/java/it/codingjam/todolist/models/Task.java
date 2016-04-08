@@ -2,6 +2,7 @@ package it.codingjam.todolist.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  *
@@ -11,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "tasks")
 @NamedQuery(name = Task.GET_ALL, query = "select t from Task t")
-public class Task {
+public class Task implements Serializable {
 
     public static final String GET_ALL = "Task.getAll";
 

@@ -1,4 +1,4 @@
-package it.codingjam.todolist.utils;
+package it.codingjam.todolist.interceptors;
 
 import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;

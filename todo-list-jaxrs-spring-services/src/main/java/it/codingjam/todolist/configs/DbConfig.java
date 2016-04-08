@@ -12,8 +12,10 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.scheduling.config.Task;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.persistence.EntityManagerFactory;
+import javax.transaction.TransactionManager;
 
 /**
  * Database configuration providers
@@ -90,6 +92,14 @@ public class DbConfig {
         emf.setPackagesToScan(String.valueOf(Task.class.getPackage()));
 
         return emf;
+    }
+
+    @Bean
+    public TransactionTemplate transactionTemplate(EntityManagerFactory emf) {
+        TransactionTemplate tt = new TransactionTemplate();
+        tt.setTransactionManager(transactionManager(emf));
+
+        return tt;
     }
 
     @Bean
