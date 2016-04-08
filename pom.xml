@@ -44,7 +44,8 @@
         <mockito.version>1.10.19</mockito.version>
         <dbcp.version>1.2.2</dbcp.version>
         <io.version>1.4</io.version>
-        <aspectj.version>1.6.8</aspectj.version>
+        <codec.version>1.10</codec.version>
+        <aspectj.version>1.8.9</aspectj.version>
         <log4j.version>1.2.14</log4j.version>
         <hibernate.version>4.3.11.Final</hibernate.version>
         <jersey.version>2.22.2</jersey.version>
@@ -125,6 +126,11 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${io.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${codec.version}</version>
         </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>
