@@ -14,7 +14,8 @@ public class Role implements Serializable {
 
     @Id
     @NotNull
-    private String id;
+    @Enumerated(EnumType.STRING)
+    private RoleType id;
 
     private String description;
 
@@ -28,11 +29,11 @@ public class Role implements Serializable {
         this.users.add(user);
     }
 
-    public String getId() {
+    public RoleType getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(RoleType id) {
         this.id = id;
     }
 

@@ -1,6 +1,7 @@
 package it.codingjam.todolist.initializers;
 
 import it.codingjam.todolist.models.Role;
+import it.codingjam.todolist.models.RoleType;
 import it.codingjam.todolist.models.User;
 import org.apache.log4j.Logger;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -10,9 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.TransactionManager;
-import javax.transaction.Transactional;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +39,7 @@ public class UserRegistryInitializer {
             if (noUsers()) {
                 LOGGER.info("Initializing DB...");
 
-                Map<String, Role> roleMap = createRoles();
+                Map<RoleType, Role> roleMap = createRoles();
                 createUsers(roleMap);
             }
             return null;
@@ -53,11 +52,11 @@ public class UserRegistryInitializer {
                 .intValue() == 0;
     }
 
-    private void createUsers(Map<String, Role> roleMap) {
-        newUser("user1", "user1", "Nome 1", "Cognome 1", Arrays.asList(roleMap.get("CUSTOMER")));
-        newUser("user2", "user2", "Nome 2", "Cognome 2", Arrays.asList(roleMap.get("CUSTOMER")));
-        newUser("user3", "user3", "Nome 3", "Cognome 3", Arrays.asList(roleMap.get("CUSTOMER")));
-        newUser("admin", "admin", "Nome Admin", "Cognome Admin", Arrays.asList(roleMap.get("ADMIN")));
+    private void createUsers(Map<RoleType, Role> roleMap) {
+        newUser("user1", "user1", "Nome 1", "Cognome 1", Collections.singletonList(roleMap.get(RoleType.CUSTOMER)));
+        newUser("user2", "user2", "Nome 2", "Cognome 2", Collections.singletonList(roleMap.get(RoleType.CUSTOMER)));
+        newUser("user3", "user3", "Nome 3", "Cognome 3", Collections.singletonList(roleMap.get(RoleType.CUSTOMER)));
+        newUser("admin", "admin", "Nome Admin", "Cognome Admin", Collections.singletonList(roleMap.get(RoleType.ADMIN)));
     }
 
     private void newUser(String userName, String password, String firstName, String lastName, List<Role> roles) {
@@ -72,16 +71,16 @@ public class UserRegistryInitializer {
         this.entityManager.persist(user);
     }
 
-    private Map<String, Role> createRoles() {
-        Map<String, Role> idRoleMap = new HashMap<>();
+    private Map<RoleType, Role> createRoles() {
+        Map<RoleType, Role> idRoleMap = new HashMap<>();
 
-        idRoleMap.put("ADMIN", newRole("ADMIN", "Administrator role. Can see all tasks of all users"));
-        idRoleMap.put("CUSTOMER", newRole("CUSTOMER", "Simple user. Can see only her tasks"));
+        idRoleMap.put(RoleType.ADMIN, newRole(RoleType.ADMIN, "Administrator role. Can see all tasks of all users"));
+        idRoleMap.put(RoleType.CUSTOMER, newRole(RoleType.CUSTOMER, "Simple user. Can see only her tasks"));
 
         return idRoleMap;
     }
 
-    private Role newRole(String id, String description) {
+    private Role newRole(RoleType id, String description) {
         Role role = new Role();
         role.setId(id);
         role.setDescription(description);

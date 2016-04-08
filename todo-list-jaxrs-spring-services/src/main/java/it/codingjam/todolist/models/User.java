@@ -30,9 +30,17 @@ public class User {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "users_roles",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_name")},
+            joinColumns = {@JoinColumn(name = "user_name", referencedColumnName = "user_name")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     private List<Role> roles;
+
+    public User() {
+        // empty contructor for JPA
+    }
+
+    public User(String userName) {
+        this.userName = userName;
+    }
 
     @PrePersist
     void encryptPassword() {

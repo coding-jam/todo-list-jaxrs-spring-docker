@@ -4,7 +4,7 @@
                  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
 
     <named-query name="Task.remove">
-        <query>delete from Task t where t.id = :id</query>
+        <query>delete from Task t where t.id = :id and t.user.userName = :userName</query>
     </named-query>
 
 </entity-mappings>

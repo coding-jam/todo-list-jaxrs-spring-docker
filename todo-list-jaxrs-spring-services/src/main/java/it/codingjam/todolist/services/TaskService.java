@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -28,13 +29,26 @@ public class TaskService {
         LOGGER.info("Init task service with hash " + hashCode());
     }
 
-    public Optional<Task> getById(long id) {
-        Task task = this.entityManager.find(Task.class, id);
-        return Optional.ofNullable(task);
+    public Optional<Task> getBy(long id, String userName) {
+        try {
+            Task task = this.entityManager.createNamedQuery(Task.GET_FOR_USER_BY_ID, Task.class)
+                    .setParameter("id", id)
+                    .setParameter("userName", userName)
+                    .getSingleResult();
+            return Optional.of(task);
+        } catch (PersistenceException e) {
+            return Optional.empty();
+        }
     }
 
     public List<Task> getAllTasks() {
         return this.entityManager.createNamedQuery(Task.GET_ALL, Task.class).getResultList();
+    }
+
+    public List<Task> getAllTasks(String userName) {
+        return this.entityManager.createNamedQuery(Task.GET_ALL_FOR_USER, Task.class)
+                .setParameter("userName", userName)
+                .getResultList();
     }
 
     @Transactional
@@ -44,21 +58,18 @@ public class TaskService {
     }
 
     @Transactional
-    public void deleteById(long id) {
+    public boolean deleteBy(long id, String userName) {
         LOGGER.info(String.format("Removing task %s", id));
-        this.entityManager.createNamedQuery("Task.remove").setParameter("id", id).executeUpdate();
+        int updatedEntities = this.entityManager.createNamedQuery("Task.remove")
+                .setParameter("id", id)
+                .setParameter("userName", userName)
+                .executeUpdate();
+        return updatedEntities > 0;
     }
 
     @Transactional
     public void update(Task task) {
         LOGGER.info(String.format("Updating task %s", task.getId()));
         this.entityManager.merge(task);
-    }
-
-    private Task newTask(int id) {
-        Task task = new Task();
-        task.setId(id);
-        task.setText("da fare");
-        return task;
     }
 }

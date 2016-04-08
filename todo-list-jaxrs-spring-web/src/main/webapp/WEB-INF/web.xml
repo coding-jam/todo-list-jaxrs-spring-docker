@@ -36,34 +36,35 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
-	<!--&lt;!&ndash; unsecured &ndash;&gt;-->
-	<!--<security-constraint>-->
-		<!--<web-resource-collection>-->
-			<!--<web-resource-name>api</web-resource-name>-->
-			<!--<url-pattern>/api/login</url-pattern>-->
-		<!--</web-resource-collection>-->
-	<!--</security-constraint>-->
+	<!-- unsecured -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>api</web-resource-name>
+			<url-pattern>/api/login</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
 
-	<!--&lt;!&ndash; secured &ndash;&gt;-->
-	<!--<security-constraint>-->
-		<!--<web-resource-collection>-->
-			<!--<web-resource-name>api</web-resource-name>-->
-			<!--<url-pattern>/api/*</url-pattern>-->
-		<!--</web-resource-collection>-->
-		<!--<auth-constraint>-->
-			<!--<role-name>*</role-name>-->
-		<!--</auth-constraint>-->
-	<!--</security-constraint>-->
-	<!--<security-role>-->
-		<!--<role-name>administrator</role-name>-->
-	<!--</security-role>-->
-	<!--<security-role>-->
-		<!--<role-name>operator</role-name>-->
-	<!--</security-role>-->
-	<!--<login-config>-->
-		<!--<auth-method>BASIC</auth-method>-->
-		<!--<realm-name>EpcisSerializer</realm-name>-->
-	<!--</login-config>-->
+	<!-- secured -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>api</web-resource-name>
+			<url-pattern>/api/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>*</role-name>
+		</auth-constraint>
+	</security-constraint>
 
+	<security-role>
+		<role-name>CUSTOMER</role-name>
+	</security-role>
+	<security-role>
+		<role-name>ADMIN</role-name>
+	</security-role>
+
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<realm-name>TodoAppRealm</realm-name>
+	</login-config>
 
 </web-app>

@@ -8,7 +8,7 @@
             <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %p [%C:%L] - %m%n"></param>
         </layout>
 	</appender>
-	
+
 	<root>
 		<priority value="${log.level}" />
 		<appender-ref ref="console" />

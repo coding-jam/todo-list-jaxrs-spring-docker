@@ -78,26 +78,33 @@
                         </goals>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>${postgresql.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
-            <!--<plugin>-->
-            <!--<artifactId>maven-war-plugin</artifactId>-->
-            <!--<version>2.2</version>-->
-            <!--<configuration>-->
-            <!--<warName>${project.artifactId}</warName>-->
-            <!--<webResources>-->
-            <!--<resource>-->
-            <!--<filtering>true</filtering>-->
-            <!--<directory>src/main/webapp</directory>-->
-            <!--<includes>-->
-            <!--<include>**/web.xml</include>-->
-            <!--<include>META-INF/**</include>-->
-            <!--</includes>-->
-            <!--</resource>-->
-            <!--</webResources>-->
-            <!--<warSourceDirectory>src/main/webapp</warSourceDirectory>-->
-            <!--<webXml>src/main/webapp/WEB-INF/web.xml</webXml>-->
-            <!--</configuration>-->
-            <!--</plugin>-->
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <warName>${project.artifactId}</warName>
+                    <webResources>
+                        <resource>
+                            <filtering>true</filtering>
+                            <directory>src/main/webapp</directory>
+                            <includes>
+                                <include>**/web.xml</include>
+                                <include>META-INF/**</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                    <warSourceDirectory>src/main/webapp</warSourceDirectory>
+                    <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
