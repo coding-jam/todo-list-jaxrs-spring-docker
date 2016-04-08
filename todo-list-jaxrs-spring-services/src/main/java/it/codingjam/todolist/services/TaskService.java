@@ -1,64 +1,75 @@
 package it.codingjam.todolist.services;
 
-import com.google.common.collect.Lists;
 import it.codingjam.todolist.models.Task;
+import it.codingjam.todolist.interceptors.Profiling;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
-import java.util.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
+import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 /**
  */
 @Named
+@Profiling
 public class TaskService {
 
     private static final Logger LOGGER = Logger.getLogger(TaskService.class.getName());
 
-    private List<Task> data = Lists.newArrayList(newTask(1), newTask(2), newTask(3));
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @PostConstruct
     void init() {
         LOGGER.info("Init task service with hash " + hashCode());
     }
 
-    public Optional<Task> getById(long id) {
-        return data.stream().filter(task -> task.getId() == id).findFirst();
+    public Optional<Task> getBy(long id, String userName) {
+        try {
+            Task task = this.entityManager.createNamedQuery(Task.GET_FOR_USER_BY_ID, Task.class)
+                    .setParameter("id", id)
+                    .setParameter("userName", userName)
+                    .getSingleResult();
+            return Optional.of(task);
+        } catch (PersistenceException e) {
+            return Optional.empty();
+        }
     }
 
     public List<Task> getAllTasks() {
-        return data;
+        return this.entityManager.createNamedQuery(Task.GET_ALL, Task.class).getResultList();
     }
 
+    public List<Task> getAllTasks(String userName) {
+        return this.entityManager.createNamedQuery(Task.GET_ALL_FOR_USER, Task.class)
+                .setParameter("userName", userName)
+                .getResultList();
+    }
+
+    @Transactional
     public void save(Task task) {
         LOGGER.info(String.format("Saving new task %s", task));
-        Optional<Long> max = data.stream().map(Task::getId).max((value1, value2) -> Long.valueOf(value1).compareTo(value2));
-        task.setId(max.get() + 1);
-        data.add(task);
+        this.entityManager.persist(task);
     }
 
-    public void deleteById(long id) {
+    @Transactional
+    public boolean deleteBy(long id, String userName) {
         LOGGER.info(String.format("Removing task %s", id));
-        List<Task> taskList = data.stream().filter(task -> task.getId() != id).collect(Collectors.toList());
-        synchronized (data) {
-            data = taskList;
-        }
+        int updatedEntities = this.entityManager.createNamedQuery("Task.remove")
+                .setParameter("id", id)
+                .setParameter("userName", userName)
+                .executeUpdate();
+        return updatedEntities > 0;
     }
 
+    @Transactional
     public void update(Task task) {
         LOGGER.info(String.format("Updating task %s", task.getId()));
-        Task taskFromList = data.stream().filter(taskInList -> taskInList.getId() == task.getId()).findFirst().orElseThrow(() -> new NoSuchElementException());
-        synchronized (data) {
-            taskFromList.setText(task.getText());
-            taskFromList.setStatus(task.getStatus());
-        }
-    }
-
-    private Task newTask(int id) {
-        Task task = new Task();
-        task.setId(id);
-        task.setText("da fare");
-        return task;
+        this.entityManager.merge(task);
     }
 }

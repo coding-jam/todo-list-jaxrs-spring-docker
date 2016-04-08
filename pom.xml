@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>it.codingjam</groupId>
     <artifactId>todo-list-jaxrs-spring</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <packaging>pom</packaging>
     <modules>
         <module>todo-list-jaxrs-spring-web</module>
@@ -36,7 +36,7 @@
 
         <filter.file>../mvn-svil.properties</filter.file>
 
-        <spring.framework.version>4.0.5.RELEASE</spring.framework.version>
+        <spring.framework.version>4.2.5.RELEASE</spring.framework.version>
         <guava.version>17.0</guava.version>
         <h2.version>1.4.179</h2.version>
 
@@ -44,11 +44,12 @@
         <mockito.version>1.10.19</mockito.version>
         <dbcp.version>1.2.2</dbcp.version>
         <io.version>1.4</io.version>
-        <aspectj.version>1.6.8</aspectj.version>
+        <codec.version>1.10</codec.version>
+        <aspectj.version>1.8.9</aspectj.version>
         <log4j.version>1.2.14</log4j.version>
-        <hibernate.version>5.1.0.Final</hibernate.version>
+        <hibernate.version>4.3.11.Final</hibernate.version>
         <jersey.version>2.22.2</jersey.version>
-        <mysql.version>5.1.34</mysql.version>
+        <postgresql.version>9.4.1208.jre7</postgresql.version>
         <servlet.api.version>3.1.0</servlet.api.version>
         <jgitflow.version>1.0-m5.1</jgitflow.version>
     </properties>
@@ -127,6 +128,11 @@
             <version>${io.version}</version>
         </dependency>
         <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${codec.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
             <version>${aspectj.version}</version>
@@ -174,9 +180,9 @@
             <artifactId>jersey-bean-validation</artifactId>
         </dependency>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.version}</version>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
