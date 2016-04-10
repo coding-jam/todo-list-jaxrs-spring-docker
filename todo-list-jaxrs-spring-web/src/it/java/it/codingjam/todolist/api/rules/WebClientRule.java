@@ -79,7 +79,7 @@ public class WebClientRule extends ExternalResource {
         private String getBasicAuthentication() {
             String token = this.user + ":" + this.password;
             try {
-                return "BASIC " + DatatypeConverter.printBase64Binary(token.getBytes("UTF-8"));
+                return "Basic " + DatatypeConverter.printBase64Binary(token.getBytes("UTF-8"));
             } catch (UnsupportedEncodingException ex) {
                 throw new IllegalStateException("Cannot encode with UTF-8", ex);
             }
