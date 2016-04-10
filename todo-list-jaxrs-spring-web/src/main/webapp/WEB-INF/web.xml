@@ -36,6 +36,15 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
+	<filter>
+		<filter-name>openSessionInView</filter-name>
+		<filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>openSessionInView</filter-name>
+		<servlet-name>Jersey Web Application</servlet-name>
+	</filter-mapping>
+
 	<!-- unsecured -->
 	<security-constraint>
 		<web-resource-collection>
