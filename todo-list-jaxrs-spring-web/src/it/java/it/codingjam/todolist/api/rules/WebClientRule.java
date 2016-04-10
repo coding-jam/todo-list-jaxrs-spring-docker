@@ -16,13 +16,13 @@ import java.io.UnsupportedEncodingException;
  */
 public class WebClientRule extends ExternalResource {
 
-    private String apiVersion;
+    private final String apiVersion;
 
     private WebTarget target;
 
-    private String DEFAULT_USER = "admin";
+    private static final String DEFAULT_USER = "admin";
 
-    private String DEFAULT_PASSWORD = "admin";
+    private static final String DEFAULT_PASSWORD = "admin";
 
     public WebClientRule(String apiVersion) {
         this.apiVersion = apiVersion;
