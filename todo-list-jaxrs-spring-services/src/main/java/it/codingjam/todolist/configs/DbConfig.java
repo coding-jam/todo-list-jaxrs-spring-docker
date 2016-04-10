@@ -1,6 +1,7 @@
 package it.codingjam.todolist.configs;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -56,16 +57,15 @@ public class DbConfig {
 
 
     @Bean(destroyMethod = "close")
-    public BasicDataSource dataSource() {
+    public DataSource dataSource() {
 
-        BasicDataSource ds = new BasicDataSource();
+        DataSource ds = new DataSource();
         ds.setDriverClassName(this.driverClass);
         ds.setUrl(this.url);
         ds.setUsername(this.userName);
         ds.setPassword(this.password);
         ds.setInitialSize(this.initialSizePool);
         ds.setMaxActive(this.maxActiveConnections);
-        ds.setPoolPreparedStatements(true);
         ds.setTestOnBorrow(true);
         ds.setValidationQuery("SELECT 1");
         ds.setTestWhileIdle(true);
