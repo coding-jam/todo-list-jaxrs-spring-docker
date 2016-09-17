@@ -11,10 +11,13 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.logging.Logger;
 
 /**
  */
 public class WebClientRule extends ExternalResource {
+
+    private static final Logger LOGGER = Logger.getLogger(WebClientRule.class.getName());
 
     private final String apiVersion;
 
@@ -38,9 +41,16 @@ public class WebClientRule extends ExternalResource {
         target = ClientBuilder.newBuilder()
                 .register(MoxyJsonFeature.class)
                 .build()
-                .target("http://localhost:8080/todo-list-jaxrs-spring-web/api" + apiVersion);
+                .target(getBaseUrl() + "/api" + apiVersion);
 
         return this;
+    }
+
+    private String getBaseUrl() {
+        String envUrl = System.getProperty("integration-test.url");
+        String baseUrl = envUrl != null ? envUrl : "http://localhost:8080/todo-list-jaxrs-spring-web";
+        LOGGER.info("Base url for integration tests: " + baseUrl);
+        return baseUrl;
     }
 
     public WebTarget getResource() {
