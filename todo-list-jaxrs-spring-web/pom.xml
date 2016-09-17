@@ -41,59 +41,75 @@
                             </sources>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>reserve-network-port</id>
+                        <goals>
+                            <goal>reserve-network-port</goal>
+                        </goals>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <portNames>
+                                <portName>tomcat.http.port</portName>
+                            </portNames>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
-                <executions>
-                    <execution>
-                        <id>start-tomcat</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>run-war</goal>
-                        </goals>
-                        <configuration>
-                            <fork>true</fork>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>stop-tomcat</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>shutdown</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.postgresql</groupId>
-                        <artifactId>postgresql</artifactId>
-                        <version>${postgresql.version}</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.2</version>
                 <configuration>
-                    <warName>${project.artifactId}</warName>
-                    <webResources>
-                        <resource>
-                            <filtering>true</filtering>
-                            <directory>src/main/webapp</directory>
-                            <includes>
-                                <include>**/web.xml</include>
-                                <include>META-INF/**</include>
-                            </includes>
-                        </resource>
-                    </webResources>
-                    <warSourceDirectory>src/main/webapp</warSourceDirectory>
-                    <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+                    <port>${tomcat.http.port}</port>
+                    <useTestClasspath>true</useTestClasspath>
                 </configuration>
-            </plugin>
-        </plugins>
-    </build>
+                    <executions>
+                        <execution>
+                            <id>start-tomcat</id>
+                            <phase>pre-integration-test</phase>
+                            <goals>
+                                <goal>run-war</goal>
+                            </goals>
+                            <configuration>
+                                <fork>true</fork>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>stop-tomcat</id>
+                            <phase>post-integration-test</phase>
+                            <goals>
+                                <goal>shutdown</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.postgresql</groupId>
+                            <artifactId>postgresql</artifactId>
+                            <version>${postgresql.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>2.2</version>
+                    <configuration>
+                        <warName>${project.artifactId}</warName>
+                        <webResources>
+                            <resource>
+                                <filtering>true</filtering>
+                                <directory>src/main/webapp</directory>
+                                <includes>
+                                    <include>**/web.xml</include>
+                                    <include>META-INF/**</include>
+                                </includes>
+                            </resource>
+                        </webResources>
+                        <warSourceDirectory>src/main/webapp</warSourceDirectory>
+                        <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </build>
 
-</project>
+    </project>
