@@ -240,7 +240,7 @@
                                     <POSTGRES_DB>todo_list</POSTGRES_DB>
                                 </env>
                                 <ports>
-                                    <port>5432:5432</port>
+                                    <port>postgres.port:5432</port>
                                 </ports>
                                 <wait>
                                     <log>database system is ready to accept connections</log>
