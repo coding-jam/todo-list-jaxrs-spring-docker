@@ -243,8 +243,8 @@
                                     <port>postgres.port:5432</port>
                                 </ports>
                                 <wait>
-                                    <log>database system is ready to accept connections</log>
-                                    <time>20000</time>
+                                    <!--<log>database system is ready to accept connections</log>-->
+                                    <time>10000</time>
                                 </wait>
                             </run>
                         </image>
