@@ -18,7 +18,7 @@
 <Context>
 	<Realm className="org.apache.catalina.realm.JDBCRealm"
 		 driverName="org.postgresql.Driver"
-		 connectionURL="jdbc:postgresql://${db.ip}:5432/todo_list"
+		 connectionURL="jdbc:postgresql://${DB_PORT_5432_TCP_ADDR}:${DB_PORT_5432_TCP_PORT}/todo_list"
 		 connectionName="todolist"
 		 connectionPassword="todolist"
 		 userTable="USERS"

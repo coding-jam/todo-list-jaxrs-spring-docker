@@ -11,18 +11,21 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.logging.Logger;
 
 /**
  */
 public class WebClientRule extends ExternalResource {
 
-    private String apiVersion;
+    private static final Logger LOGGER = Logger.getLogger(WebClientRule.class.getName());
+
+    private final String apiVersion;
 
     private WebTarget target;
 
-    private String DEFAULT_USER = "admin";
+    private static final String DEFAULT_USER = "admin";
 
-    private String DEFAULT_PASSWORD = "admin";
+    private static final String DEFAULT_PASSWORD = "admin";
 
     public WebClientRule(String apiVersion) {
         this.apiVersion = apiVersion;
@@ -38,9 +41,16 @@ public class WebClientRule extends ExternalResource {
         target = ClientBuilder.newBuilder()
                 .register(MoxyJsonFeature.class)
                 .build()
-                .target("http://localhost:8080/todo-list-jaxrs-spring-web/api" + apiVersion);
+                .target(getBaseUrl() + "/api" + apiVersion);
 
         return this;
+    }
+
+    private String getBaseUrl() {
+        String envUrl = System.getProperty("integration-test.url");
+        String baseUrl = envUrl != null ? envUrl : "http://localhost:8080/todo-list-jaxrs-spring-web";
+        LOGGER.info("Base url for integration tests: " + baseUrl);
+        return baseUrl;
     }
 
     public WebTarget getResource() {
@@ -79,7 +89,7 @@ public class WebClientRule extends ExternalResource {
         private String getBasicAuthentication() {
             String token = this.user + ":" + this.password;
             try {
-                return "BASIC " + DatatypeConverter.printBase64Binary(token.getBytes("UTF-8"));
+                return "Basic " + DatatypeConverter.printBase64Binary(token.getBytes("UTF-8"));
             } catch (UnsupportedEncodingException ex) {
                 throw new IllegalStateException("Cannot encode with UTF-8", ex);
             }
