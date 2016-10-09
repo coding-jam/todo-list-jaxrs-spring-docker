@@ -39,6 +39,7 @@
         <spring.framework.version>4.2.5.RELEASE</spring.framework.version>
         <guava.version>18.0</guava.version>
         <tomcat.version>8.0.33</tomcat.version>
+        <dmp.version>0.16.7</dmp.version>
 
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.19</mockito.version>
@@ -225,7 +226,7 @@
             <plugin>
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>0.15.16</version>
+                <version>${dmp.version}</version>
                 <configuration>
                     <showLogs>true</showLogs>
                     <images>
