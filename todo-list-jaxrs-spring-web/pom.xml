@@ -115,7 +115,7 @@
                                 </ports>
                                 <wait>
                                     <http>
-                                        <url>http://localhost:${tomcat.port}</url>
+                                        <url>http://${docker.host.address}:${tomcat.port}</url>
                                     </http>
                                     <time>30000</time>
                                 </wait>
