@@ -2,7 +2,7 @@
 
 **POC** project for **Docker** (1.12.x) in integration test with **Maven** (3.x.x)
 
-## What the project do ##
+## What the project does ##
 
 Todo list REST API sample project based on:
 
