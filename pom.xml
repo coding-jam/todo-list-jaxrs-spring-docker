@@ -53,6 +53,8 @@
         <postgresql.version>9.4.1208.jre7</postgresql.version>
         <servlet.api.version>3.1.0</servlet.api.version>
         <jgitflow.version>1.0-m5.1</jgitflow.version>
+
+        <postgres.db.alias>todo-list-postgres</postgres.db.alias>
     </properties>
 
     <repositories>
@@ -231,7 +233,7 @@
                     <showLogs>true</showLogs>
                     <images>
                         <image>
-                            <alias>postgres-integration-test</alias>
+                            <alias>${postgres.db.alias}</alias>
                             <name>postgres:9</name>
                             <run>
                                 <env>
@@ -246,6 +248,9 @@
                                     <!--<log>database system is ready to accept connections</log>-->
                                     <time>10000</time>
                                 </wait>
+                                <network>
+                                    <name>${custom.network}</name>
+                                </network>
                             </run>
                         </image>
                     </images>
@@ -291,6 +296,12 @@
             <id>cert</id>
             <properties>
                 <filter.file>../mvn-cert.properties</filter.file>
+            </properties>
+        </profile>
+        <profile>
+            <id>jenkins</id>
+            <properties>
+                <custom.network>jenkinsdocker_ci-net</custom.network>
             </properties>
         </profile>
     </profiles>

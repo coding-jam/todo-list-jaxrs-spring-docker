@@ -120,7 +120,7 @@
                                     <time>30000</time>
                                 </wait>
                                 <links>
-                                    <link>postgres-integration-test:db</link>
+                                    <link>${postgres.db.alias}:db</link>
                                 </links>
                             </run>
                         </image>
