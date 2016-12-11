@@ -55,6 +55,7 @@
         <jgitflow.version>1.0-m5.1</jgitflow.version>
 
         <postgres.db.alias>todo-list-postgres</postgres.db.alias>
+        <postgres.default.port>5432</postgres.default.port>
     </properties>
 
     <repositories>
@@ -242,12 +243,13 @@
                                     <POSTGRES_DB>todo_list</POSTGRES_DB>
                                 </env>
                                 <ports>
-                                    <port>postgres.port:5432</port>
+                                    <port>postgres.port:${postgres.default.port}</port>
                                 </ports>
                                 <wait>
                                     <!--<log>database system is ready to accept connections</log>-->
                                     <time>10000</time>
                                 </wait>
+                                <namingStrategy>alias</namingStrategy>
                                 <network>
                                     <name>${custom.network}</name>
                                 </network>

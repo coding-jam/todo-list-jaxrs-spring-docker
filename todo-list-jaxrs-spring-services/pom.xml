@@ -9,6 +9,7 @@
 
     <properties>
         <it.db.host>localhost</it.db.host>
+        <it.db.port>${postgres.port}</it.db.port>
     </properties>
 
     <build>
@@ -66,7 +67,7 @@
                 <configuration>
                     <systemPropertyVariables>
                         <DB_PORT_5432_TCP_ADDR>${it.db.host}</DB_PORT_5432_TCP_ADDR>
-                        <DB_PORT_5432_TCP_PORT>${postgres.port}</DB_PORT_5432_TCP_PORT>
+                        <DB_PORT_5432_TCP_PORT>${it.db.port}</DB_PORT_5432_TCP_PORT>
                     </systemPropertyVariables>
                 </configuration>
                 <executions>
@@ -85,7 +86,9 @@
         <profile>
             <id>jenkins</id>
             <properties>
+                <!-- use host:port internal to Docker network (because Jenkins is Dockerized too) -->
                 <it.db.host>${postgres.db.alias}</it.db.host>
+                <it.db.port>${postgres.default.port}</it.db.port>
             </properties>
         </profile>
     </profiles>
