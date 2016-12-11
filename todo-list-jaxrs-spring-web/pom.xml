@@ -11,6 +11,9 @@
     <properties>
         <it.db.host>${postgres.db.alias}</it.db.host>
         <it.db.port>${postgres.default.port}</it.db.port>
+
+        <it.web.host>${docker.host.address}</it.web.host>
+        <it.web.port>${tomcat.port}</it.web.port>
     </properties>
 
     <dependencies>
@@ -81,7 +84,7 @@
                 <version>2.18.1</version>
                 <configuration>
                     <systemPropertyVariables>
-                        <integration-test.url>http://localhost:${tomcat.port}/${project.artifactId}
+                        <integration-test.url>http://${it.web.host}:${it.web.port}/${project.artifactId}
                         </integration-test.url>
                     </systemPropertyVariables>
                 </configuration>
@@ -102,7 +105,7 @@
                     <showLogs>true</showLogs>
                     <images combine.children="append">
                         <image>
-                            <alias>todolist-tomcat</alias>
+                            <alias>${tomcat.alias}</alias>
                             <name>%g/todolist-tomcat:%l</name>
                             <build>
                                 <args>
@@ -120,7 +123,7 @@
                                 </ports>
                                 <wait>
                                     <http>
-                                        <url>http://${docker.host.address}:${tomcat.port}</url>
+                                        <url>http://${it.web.host}:${it.web.port}</url>
                                     </http>
                                     <time>30000</time>
                                 </wait>
@@ -181,5 +184,15 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>jenkins</id>
+            <properties>
+                <it.web.host>${tomcat.alias}</it.web.host>
+                <it.web.port>${tomcat.default.port}</it.web.port>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>

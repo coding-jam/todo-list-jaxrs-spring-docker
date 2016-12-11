@@ -56,6 +56,9 @@
 
         <postgres.db.alias>todo-list-postgres</postgres.db.alias>
         <postgres.default.port>5432</postgres.default.port>
+
+        <tomcat.alias>todolist-tomcat</tomcat.alias>
+        <tomcat.default.port>8080</tomcat.default.port>
     </properties>
 
     <repositories>
