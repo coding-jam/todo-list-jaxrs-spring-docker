@@ -119,7 +119,7 @@
                             </build>
                             <run>
                                 <ports>
-                                    <port>tomcat.port:8080</port>
+                                    <port>tomcat.port:${tomcat.default.port}</port>
                                 </ports>
                                 <wait>
                                     <http>
