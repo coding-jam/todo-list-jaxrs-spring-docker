@@ -8,6 +8,11 @@
     <artifactId>todo-list-jaxrs-spring-web</artifactId>
     <packaging>war</packaging>
 
+    <properties>
+        <it.db.host>${postgres.db.alias}</it.db.host>
+        <it.db.port>${postgres.default.port}</it.db.port>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>it.codingjam</groupId>
@@ -122,6 +127,15 @@
                                 <links>
                                     <link>${postgres.db.alias}:db</link>
                                 </links>
+                                <namingStrategy>alias</namingStrategy>
+                                <env>
+                                    <DB_PORT_5432_TCP_ADDR>${it.db.host}</DB_PORT_5432_TCP_ADDR>
+                                    <DB_PORT_5432_TCP_PORT>${it.db.port}</DB_PORT_5432_TCP_PORT>
+                                </env>
+                                <!-- When custom.network has value (i.e. in Jenkins profile), links are ignored and env variables are mandatory -->
+                                <network>
+                                    <name>${custom.network}</name>
+                                </network>
                             </run>
                         </image>
                     </images>

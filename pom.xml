@@ -303,7 +303,10 @@
         <profile>
             <id>jenkins</id>
             <properties>
+                <!-- use host:port internal to Docker network (because Jenkins is Dockerized too) -->
                 <custom.network>jenkinsdocker_ci-net</custom.network>
+                <it.db.host>${postgres.db.alias}</it.db.host>
+                <it.db.port>${postgres.default.port}</it.db.port>
             </properties>
         </profile>
     </profiles>
