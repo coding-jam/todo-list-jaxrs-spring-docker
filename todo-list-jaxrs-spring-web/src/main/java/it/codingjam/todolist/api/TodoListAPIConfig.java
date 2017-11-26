@@ -1,8 +1,7 @@
 package it.codingjam.todolist.api;
 
 
-import org.glassfish.jersey.moxy.json.MoxyJsonConfig;
-import org.glassfish.jersey.moxy.json.MoxyJsonFeature;
+import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.glassfish.jersey.server.validation.ValidationConfig;
@@ -34,8 +33,7 @@ public class TodoListAPIConfig extends ResourceConfig {
         register(ValidationConfigurationContextResolver.class);
 
         // Providers - JSON.
-        register(MoxyJsonFeature.class);
-        register(JsonConfiguration.class);
+        register(JacksonJaxbJsonProvider.class);
         register(RolesAllowedDynamicFeature.class);
     }
 
@@ -88,19 +86,6 @@ public class TodoListAPIConfig extends ResourceConfig {
 
                 return null;
             }
-        }
-    }
-
-    /**
-     * Configuration for {@link org.eclipse.persistence.jaxb.rs.MOXyJsonProvider} - outputs formatted JSON.
-     */
-    public static class JsonConfiguration implements ContextResolver<MoxyJsonConfig> {
-
-        @Override
-        public MoxyJsonConfig getContext(final Class<?> type) {
-            final MoxyJsonConfig config = new MoxyJsonConfig();
-            config.setFormattedOutput(true);
-            return config;
         }
     }
 }

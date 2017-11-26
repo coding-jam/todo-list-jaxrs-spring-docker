@@ -1,6 +1,6 @@
 package it.codingjam.todolist.api.rules;
 
-import org.glassfish.jersey.moxy.json.MoxyJsonFeature;
+import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import org.junit.rules.ExternalResource;
 
 import javax.ws.rs.client.ClientBuilder;
@@ -39,7 +39,7 @@ public class WebClientRule extends ExternalResource {
 
     public WebClientRule newTarget() {
         target = ClientBuilder.newBuilder()
-                .register(MoxyJsonFeature.class)
+                .register(JacksonJaxbJsonProvider.class)
                 .build()
                 .target(getBaseUrl() + "/api" + apiVersion);
 
