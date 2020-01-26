@@ -14,12 +14,6 @@
             <artifactId>todo-list-jaxrs-spring-services</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>it.cosenonjaviste</groupId>
-            <artifactId>tomcat-jwt-security</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 
     <build>

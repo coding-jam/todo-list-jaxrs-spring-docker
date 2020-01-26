@@ -28,8 +28,14 @@
 		 roleNameCol="ROLE_ID"
          digest="SHA1"/>
 
-	<Valve className="it.cosenonjaviste.security.jwt.valves.HmacJwtTokenValve"
-		   secret="my-secret"
-		   updateExpire="true"/>
+	<!-- Use with profile hmac -->
+<!--	<Valve className="it.cosenonjaviste.security.jwt.valves.HmacJwtTokenValve"-->
+<!--		   secret="my-secret"-->
+<!--		   updateExpire="true"/>-->
+
+	<!-- Use with profile rsa -->
+	<Valve className="it.cosenonjaviste.security.jwt.valves.RsaJwtTokenValve"
+		   keystorePath="${KEYSTORE_PATH}"
+		   keystorePassword="${KEYSTORE_PWD}" />
 
 </Context>
