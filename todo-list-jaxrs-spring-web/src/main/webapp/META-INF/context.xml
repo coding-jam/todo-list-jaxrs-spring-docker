@@ -34,8 +34,14 @@
 <!--		   updateExpire="true"/>-->
 
 	<!-- Use with profile rsa -->
-	<Valve className="it.cosenonjaviste.security.jwt.valves.RsaJwtTokenValve"
-		   keystorePath="${KEYSTORE_PATH}"
-		   keystorePassword="${KEYSTORE_PWD}" />
+<!--	<Valve className="it.cosenonjaviste.security.jwt.valves.RsaJwtTokenValve"-->
+<!--		   keystorePath="${KEYSTORE_PATH}"-->
+<!--		   keystorePassword="${KEYSTORE_PWD}" />-->
+
+	<!-- Use with profile oidc -->
+	<Valve className="it.cosenonjaviste.security.jwt.valves.OidcJwtTokenValve"
+		   issuerUrl="http://localhost:9999/auth/realms/keycloak-protected-realm/protocol/openid-connect/certs"
+		   customUserIdClaim="preferred_username"
+		   supportedAudiences="keycloak-protected-app"/>
 
 </Context>
