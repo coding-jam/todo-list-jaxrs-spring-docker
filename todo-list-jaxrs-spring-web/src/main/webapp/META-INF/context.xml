@@ -28,7 +28,7 @@
 		 roleNameCol="ROLE_ID"
          digest="SHA1"/>
 
-	<Valve className="it.cosenonjaviste.security.jwt.valves.JwtTokenValve"
+	<Valve className="it.cosenonjaviste.security.jwt.valves.HmacJwtTokenValve"
 		   secret="my-secret"
 		   updateExpire="true"/>
 

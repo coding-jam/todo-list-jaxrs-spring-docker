@@ -1,5 +1,6 @@
 package it.codingjam.todolist.api;
 
+import com.auth0.jwt.algorithms.Algorithm;
 import it.codingjam.todolist.api.dtos.AuthDTO;
 import it.codingjam.todolist.api.utils.APIVersion;
 import it.cosenonjaviste.security.jwt.utils.JwtTokenBuilder;
@@ -28,7 +29,7 @@ public class LoginResource {
         request.login(userName, password);
         GenericPrincipal principal = (GenericPrincipal) request.getUserPrincipal();
 
-        JwtTokenBuilder tokenBuilder = JwtTokenBuilder.create("my-secret"); // parametrizzare
+        JwtTokenBuilder tokenBuilder = JwtTokenBuilder.create(Algorithm.HMAC256("my-secret")); // parametrizzare
         String token = tokenBuilder.userId(principal.getName())
                 .roles(Arrays.asList(principal.getRoles()))
                 .expirySecs(1800) // parametrizzare
